@@ -12,7 +12,7 @@ public class DBUtil {
 		Connection cn=null;
 		try {
 			String driver="org.apache.derby.jdbc.EmbeddedDriver";
-			String databaseURL = "jdbc:derby:C:\\Users\\SATHISH\\MyDB;create=true";
+			String databaseURL = "jdbc:derby:C:\\Users\\praveen\\MyDB;create=true";
 			Class.forName(driver);
 			cn=DriverManager.getConnection(databaseURL);
 		} catch(ClassNotFoundException e) {
