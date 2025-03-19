@@ -1,0 +1,151 @@
+
+
+
+CREATE TABLE Customers ( 
+    ConsumerNumber BIGINT PRIMARY KEY,  -- 13-digit number 
+    FullName VARCHAR(50) NOT NULL,      -- Only characters, max 50 chars 
+    Address VARCHAR(255) NOT NULL,      -- Ensuring address length meets requirements 
+    Email VARCHAR(100) UNIQUE NOT NULL, -- Unique and valid format 
+    MobileNumber VARCHAR(15) NOT NULL,  -- Proper phone number format 
+    CustomerType VARCHAR(20), 
+    UserID VARCHAR(20) UNIQUE NOT NULL, -- Min length 5, Max 20 
+    PasswordHash VARCHAR(255) NOT NULL, -- Encrypted password 
+    Role VARCHAR(20) DEFAULT 'Customer', 
+    CustomerID VARCHAR(20) UNIQUE NOT NULL, -- Randomly generated customer ID 
+    isAdminCreated BOOLEAN DEFAULT FALSE 
+); 
+ 
+CREATE TABLE Bills ( 
+    BillID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Auto-incrementing Bill ID 
+    ConsumerNumber BIGINT NOT NULL,                               -- Reference to Consumers 
+    BillingPeriod DATE NOT NULL,                                  -- Billing period (e.g., start date) 
+    BillDate DATE NOT NULL,                                       -- Date the bill was generated 
+    DueDate DATE NOT NULL,                                        -- Due date for the bill 
+    DisconnectionDate DATE,                                       -- Optional: Disconnection Date if applicable 
+    AmountDue DECIMAL(10, 2) NOT NULL,                            -- Amount due for payment 
+    PayableAmount DECIMAL(10, 2),                                 -- Amount to be paid (could be calculated if necessary) 
+    IsPaid BOOLEAN DEFAULT FALSE,                                 -- Payment status (Paid/Unpaid) 
+    ConnectionType VARCHAR(20), -- Domestic or Commercial 
+    ConnectionStatus VARCHAR(20), -- Connection status 
+    MobileNumber VARCHAR(15) NOT NULL,                            -- Mobile number of the consumer 
+    FOREIGN KEY (ConsumerNumber) REFERENCES Customers(ConsumerNumber)  -- Reference to the Customers table 
+); 
+
+
+
+
+
+
+CREATE TABLE Consumers (
+    consumer_id VARCHAR(50) PRIMARY KEY,
+    customer_id VARCHAR(20),
+    address VARCHAR(50) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    customer_type VARCHAR(20) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customers(CustomerID)
+);
+
+
+INSERT INTO Customers (ConsumerNumber, FullName, Address, Email, MobileNumber, CustomerType, UserID, PasswordHash, CustomerID, Role)
+VALUES 
+(1000000000001, 'John Doe', '123 Elm Street, Springfield', 'john.doe@example.com', '9876543210', 'Residential', 'john_doe', 'hashedpassword1', 'CUST100001', 'Customer'),
+(1000000000002, 'Jane Smith', '456 Oak Avenue, Springfield', 'jane.smith@example.com', '9876543211', 'Residential', 'jane_smith', 'hashedpassword2', 'CUST100002', 'Customer'),
+(1000000000003, 'Michael Johnson', '789 Pine Lane, Springfield', 'michael.johnson@example.com', '9876543212', 'Commercial', 'michael_johnson', 'hashedpassword3', 'CUST100003', 'Customer'),
+(1000000000004, 'Emily Davis', '101 Maple Drive, Springfield', 'emily.davis@example.com', '9876543213', 'Residential', 'emily_davis', 'hashedpassword4', 'CUST100004', 'Customer'),
+(1000000000005, 'Chris Lee', '202 Birch Road, Springfield', 'chris.lee@example.com', '9876543214', 'Commercial', 'chris_lee', 'hashedpassword5', 'CUST100005', 'Customer'),
+(1000000000006, 'Linda Taylor', '303 Cedar Lane, Springfield', 'linda.taylor@example.com', '9876543215', 'Residential', 'linda_taylor', 'hashedpassword6', 'CUST100006', 'Customer'),
+(1000000000007, 'David Wilson', '404 Elm Avenue, Springfield', 'david.wilson@example.com', '9876543216', 'Commercial', 'david_wilson', 'hashedpassword7', 'CUST100007', 'Customer'),
+(1000000000008, 'Sarah Martinez', '505 Oak Street, Springfield', 'sarah.martinez@example.com', '9876543217', 'Residential', 'sarah_martinez', 'hashedpassword8', 'CUST100008', 'Customer'),
+(1000000000009, 'Daniel Brown', '606 Pine Road, Springfield', 'daniel.brown@example.com', '9876543218', 'Commercial', 'daniel_brown', 'hashedpassword9', 'CUST100009', 'Customer'),
+(1000000000010, 'Laura Williams', '707 Maple Avenue, Springfield', 'laura.williams@example.com', '9876543219', 'Residential', 'laura_williams', 'hashedpassword10', 'CUST100010', 'Customer'),
+(1000000000011, 'Steven Miller', '808 Cedar Road, Springfield', 'steven.miller@example.com', '9876543220', 'Commercial', 'steven_miller', 'hashedpassword11', 'CUST100011', 'Customer'),
+(1000000000012, 'Rachel Taylor', '909 Elm Street, Springfield', 'rachel.taylor@example.com', '9876543221', 'Residential', 'rachel_taylor', 'hashedpassword12', 'CUST100012', 'Customer'),
+(1000000000013, 'George Moore', '1010 Birch Lane, Springfield', 'george.moore@example.com', '9876543222', 'Commercial', 'george_moore', 'hashedpassword13', 'CUST100013', 'Customer'),
+(1000000000014, 'Olivia Harris', '1111 Oak Avenue, Springfield', 'olivia.harris@example.com', '9876543223', 'Residential', 'olivia_harris', 'hashedpassword14', 'CUST100014', 'Customer'),
+(1000000000015, 'Ethan Clark', '1212 Pine Street, Springfield', 'ethan.clark@example.com', '9876543224', 'Commercial', 'ethan_clark', 'hashedpassword15', 'CUST100015', 'Customer'),
+(1000000000016, 'Ava Robinson', '1313 Cedar Drive, Springfield', 'ava.robinson@example.com', '9876543225', 'Residential', 'ava_robinson', 'hashedpassword16', 'CUST100016', 'Customer'),
+(1000000000017, 'Mason Lewis', '1414 Maple Lane, Springfield', 'mason.lewis@example.com', '9876543226', 'Commercial', 'mason_lewis', 'hashedpassword17', 'CUST100017', 'Customer'),
+(1000000000018, 'Isabella Walker', '1515 Oak Road, Springfield', 'isabella.walker@example.com', '9876543227', 'Residential', 'isabella_walker', 'hashedpassword18', 'CUST100018', 'Customer'),
+(1000000000019, 'James Hall', '1616 Pine Avenue, Springfield', 'james.hall@example.com', '9876543228', 'Commercial', 'james_hall', 'hashedpassword19', 'CUST100019', 'Customer'),
+(1000000000020, 'Mia Allen', '1717 Birch Street, Springfield', 'mia.allen@example.com', '9876543229', 'Residential', 'mia_allen', 'hashedpassword20', 'CUST100020', 'Customer');
+
+
+
+
+INSERT INTO Bills (ConsumerNumber, BillingPeriod, BillDate, DueDate, DisconnectionDate, AmountDue, PayableAmount, IsPaid, ConnectionType, ConnectionStatus, MobileNumber)
+VALUES 
+(1000000000001, '2025-01-01', '2025-01-10', '2025-02-10', NULL, 100.50, 100.50, FALSE, 'Domestic', 'Connected', '9876543210'),
+(1000000000002, '2025-01-01', '2025-01-12', '2025-02-12', NULL, 200.75, 200.75, FALSE, 'Domestic', 'Connected', '9876543211'),
+(1000000000003, '2025-01-01', '2025-01-15', '2025-02-15', NULL, 300.00, 300.00, TRUE, 'Commercial', 'Connected', '9876543212'),
+(1000000000004, '2025-01-01', '2025-01-20', '2025-02-20', NULL, 150.25, 150.25, FALSE, 'Domestic', 'Disconnected', '9876543213'),
+(1000000000005, '2025-01-01', '2025-01-25', '2025-02-25', NULL, 400.00, 400.00, FALSE, 'Commercial', 'Connected', '9876543214'),
+(1000000000006, '2025-01-01', '2025-01-28', '2025-02-28', NULL, 250.30, 250.30, TRUE, 'Domestic', 'Connected', '9876543215'),
+(1000000000007, '2025-01-01', '2025-01-30', '2025-02-28', NULL, 180.40, 180.40, FALSE, 'Commercial', 'Disconnected', '9876543216'),
+(1000000000008, '2025-01-01', '2025-02-01', '2025-02-25', NULL, 220.90, 220.90, FALSE, 'Domestic', 'Connected', '9876543217'),
+(1000000000009, '2025-01-01', '2025-02-05', '2025-02-25', NULL, 150.00, 150.00, TRUE, 'Commercial', 'Connected', '9876543218'),
+(1000000000010, '2025-01-01', '2025-02-10', '2025-03-10', NULL, 350.00, 350.00, FALSE, 'Domestic', 'Disconnected', '9876543219'),
+(1000000000011, '2025-01-01', '2025-02-15', '2025-03-15', NULL, 100.00, 100.00, FALSE, 'Commercial', 'Connected', '9876543220'),
+(1000000000012, '2025-01-01', '2025-02-20', '2025-03-20', NULL, 280.50, 280.50, TRUE, 'Domestic', 'Disconnected', '9876543221'),
+(1000000000013, '2025-01-01', '2025-02-22', '2025-03-22', NULL, 500.00, 500.00, FALSE, 'Commercial', 'Connected', '9876543222'),
+(1000000000014, '2025-01-01', '2025-02-25', '2025-03-25', NULL, 300.25, 300.25, TRUE, 'Domestic', 'Connected', '9876543223'),
+(1000000000015, '2025-01-01', '2025-03-01', '2025-04-01', NULL, 250.40, 250.40, FALSE, 'Commercial', 'Disconnected', '9876543224'),
+(1000000000016, '2025-01-01', '2025-03-10', '2025-04-10', NULL, 200.30, 200.30, FALSE, 'Domestic', 'Connected', '9876543225'),
+(1000000000017, '2025-01-01', '2025-03-15', '2025-04-15', NULL, 150.10, 150.10, TRUE, 'Commercial', 'Connected', '9876543226'),
+(1000000000018, '2025-01-01', '2025-03-20', '2025-04-20', NULL, 100.60, 100.60, FALSE, 'Domestic', 'Disconnected', '9876543227'),
+(1000000000019, '2025-01-01', '2025-03-25', '2025-04-25', NULL, 400.80, 400.80, FALSE, 'Commercial', 'Connected', '9876543228'),
+(1000000000020, '2025-01-01', '2025-03-30', '2025-04-30', NULL, 300.20, 300.20, TRUE, 'Domestic', 'Connected', '9876543229');
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE Complaints (
+    complaint_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Auto-increment for Derby
+    consumer_number BIGINT,
+   	complainttype VARCHAR(40),
+    customer_id VARCHAR(20),                             -- Foreign key reference to ConsumerNumber in Customers table
+    complaint_text VARCHAR(200),                                         -- Use CLOB for large text
+    status VARCHAR(20) DEFAULT 'Pending',                        -- Use VARCHAR for ENUM simulation
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,              -- No ON UPDATE
+    FOREIGN KEY (customer_id) REFERENCES Customers(CustomerID) -- Referencing Consumers table
+);
+
+
+INSERT INTO Complaints (consumer_number, complainttype, customer_id, complaint_text)
+VALUES 
+(1000000000001,'Billing Issue' , 'CUST100002' ,'The bill amount is incorrect. Please review the billing period.'),
+(1000000000002, 'power outage','CUST100005' ,'The connection was disconnected without any prior notice.'),
+(1000000000003, 'meter reading issue' ,'CUST100003','The reading was not showing on meter.');
+
+
+
+
+
+select *from COMPLAINTS;
+
+
+select *from payment;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
